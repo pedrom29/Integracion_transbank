@@ -1,0 +1,38 @@
+[
+    { "codigo": 1,
+        "titulo": "Atril para guitarra/bajo",
+        "imagen": "assets/img/accesorios/atril.webp",
+        "precio": 29990,
+        "descripcion": "guitarra eléctrica marca freeman"
+    },
+    { "codigo": 2,
+        "titulo": "Stand Rockstand para guitarras o bajos",
+        "imagen": "assets/img/accesorios/stand.webp",
+        "precio": 69990,
+        "descripcion": "Soporte para 3 instrumentos"
+    },
+    { "codigo": 3,
+        "titulo": "Receptor inalámbrico",
+        "imagen": "assets/img/accesorios/receptor_inalambrico.webp",
+        "precio": 179990,
+        "descripcion": "Receptor inalámbrico todo en uno"
+    },
+    { "codigo": 4,
+        "titulo": "Cuerdas guitarra electroacústica Ibanez",
+        "imagen": "assets/img/accesorios/cuerdas.webp",
+        "precio": 8990,
+        "descripcion": "et de 12 cuerdas para guitarra"
+    },
+    { "codigo": 5,
+        "titulo": "Pack de 6 uñetas Ernie Ball Prodigy - 1.5mm",
+        "imagen": "assets/img/accesorios/pack_uñetas.webp",
+        "precio": 15990,
+        "descripcion": "6 uñetas Ernie ball 1.5mm"
+    },
+    { "codigo": 6,
+        "titulo": "Amplificador de guitarra Boss Katana 100 MkII - 100W",
+        "imagen": "assets/img/accesorios/amplificador.webp",
+        "precio": 539990,
+        "descripcion": "amplificador de 100 watts con bocina personalizada"
+    }
+]

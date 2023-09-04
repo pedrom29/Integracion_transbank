@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CARRO DE COMPRAS</title>
+  <!-- CARGA CSS BOOTSTRAP -->
+  <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.min.css">
+</head>
+
+<body>
+  <!-- DIV QUE SERÁ REDEFINIDO MEDIANTE navbar.js -->
+  <div id="navbar"></div>
+  <!-- DIV CONTENEDOR PRINCIPAL -->
+  <div class="container m-4 m-auto mt-5">
+    <br>
+    <h1 class="mt-5 text-center">Productos</h1>
+    <div id="catalogo" class="row"></div>
+
+    
+
+  <!-- MODAL DEL CARRITO -->
+  <div class="modal fade" id="carritoModal" tabindex="-1" role="dialog" aria-labelledby="carritoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="carritoModalLabel">Carrito de compras</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="carritoItemsModal"></div>          
+          <label for="txt-amount-modal" class="form-label">TOTAL A PAGAR</label>
+          <input type="text" class="form-control cantidadCLP" id="txt-amount-modal" value="1" readonly oninput="convertirCLPtoUSD()">
+          <div id="resultado"></div>          
+        </div>
+        <div class="modal-footer">
+          <div id="carrito" class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" id="btn-pay" class="btn btn-warning" onclick="create()"
+              style="width:101px; height:34px; background-image: url('assets/img/webpay-desktop-logo_color.svg');">
+            </button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+
+  <!-- Toast para notificaciones -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+    <div id="notificationToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Producto</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Producto agregado con éxito al carrito.
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- CARGA JS JQUERY -->
+  <script src="assets/js/jquery/jquery-3.6.4.min.js"></script>
+  <!-- CARGA JS BOOTSTRAP -->
+  <script src="assets/js/bootstrap/bootstrap.js"></script>
+  <!-- CARGA JS NAVBAR -->
+  <script src="assets/js/custom/navbar.js"></script>
+  <!-- CARGA JS PARA RECIBIR DATOS DESDE TRANSBANK -->
+  <script src="assets/js/custom/transbank.js"></script>
+  <script>
+    let productos = [];
+
+    function load() {
+      fetch("assets/data2.json")
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Error al obtener data.json");
+          }
+        })
+        .then(data => {
+          productos = data;
+          let catalogoHTML = "";
+          data.forEach(producto => {
+            catalogoHTML += `
+              <div class="col-sm m-3">
+                <div class="card m-auto" style="width: 18rem;">
+                  <img src="${producto.imagen}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">${producto.titulo}</h5>
+                    <p class="card-text text-truncate">${producto.descripcion}</p>
+                    <h6 class="text">$${producto.precio}</h6>
+                    <button class="btn btn-primary" onclick="agregarAlCarrito(${producto.id})">AGREGAR AL CARRITO</button>
+                  </div>
+                </div>
+              </div>`;
+          });
+
+          const catalogoDiv = document.getElementById("catalogo");
+          catalogoDiv.innerHTML = catalogoHTML;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+    function agregarAlCarrito(id) {
+      const producto = productos.find(p => p.id === id);
+      if (producto) {
+        carrito.push({ nombre: producto.titulo, precio: producto.precio });
+        console.log("Producto agregado al carrito:", producto.titulo, producto.precio);
+        showNotification(`Producto "${producto.titulo}" agregado con éxito al carrito.`);
+        convertirCLPtoUSD();
+      }
+    }
+
+    const carrito = [];
+
+    function openCarrito() {
+      const carritoItemsModalHTML = document.getElementById("carritoItemsModal");
+      const txtAmountModal = document.getElementById("txt-amount-modal");
+
+      if (carrito.length === 0) {
+        carritoItemsModalHTML.innerHTML = "<p>El carrito está vacío</p>";
+        txtAmountModal.value = "0";
+      } else {
+        let carritoItemsModal = "";
+        let totalAmountModal = 0;
+        
+        
+        carrito.forEach((producto, index) => {
+          carritoItemsModal += `
+            <div class="carrito-item">${producto.nombre} - $${producto.precio}
+              <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button>
+            </div>`;
+          totalAmountModal += producto.precio;
+        });
+
+        carritoItemsModalHTML.innerHTML = carritoItemsModal;
+        txtAmountModal.value = totalAmountModal.toFixed(2);
+      }
+
+      $('#carritoModal').modal('show');
+    }
+
+    function eliminarProducto(index) {
+      carrito.splice(index, 1);
+      console.log("Producto eliminado del carrito.");
+      openCarrito(); // Vuelve a abrir el carrito para reflejar los cambios
+    }
+
+    function procederPago() {
+      const totalAmountModal = document.getElementById("txt-amount-modal").value;
+      alert("Total a pagar: $" + totalAmountModal);
+
+      // Redireccionar a carro-compras.html
+      window.location.href = "carro-compras.html";
+    }
+
+
+    function showNotification(message) {
+      const notificationToast = new bootstrap.Toast(document.getElementById("notificationToast"));
+      const toastHeader = document.querySelector("#notificationToast .toast-header strong");
+      const toastBody = document.querySelector("#notificationToast .toast-body");
+      toastHeader.textContent = "Producto";
+      toastBody.textContent = message;
+      notificationToast.show();
+    }
+
+    load();
+  </script>
+  <script>
+    function convertirCLPtoUSD() {
+  const cantidadCLP = document.querySelector('.cantidadCLP').value;
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://v6.exchangerate-api.com/v6/1851910b8757467e8015c566/latest/USD');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      const response = JSON.parse(xhr.responseText);
+      const tasaCLP = response.conversion_rates.CLP;
+
+      let totalAmountModal = 0;
+
+      carrito.forEach((producto) => {
+        totalAmountModal += producto.precio;
+      });
+
+      const cantidadUSD = totalAmountModal / tasaCLP;
+
+      document.getElementById('resultado').innerHTML = `Total amount are approximately ${cantidadUSD.toFixed(2)} USD`;
+    } else if (xhr.readyState === 4) {
+      console.log('Ha ocurrido un error:', xhr.status);
+    }
+  };
+  xhr.send();
+}
+  </script>
+  <!-- ETIQUETA PARA MOSTRAR MENSAJE DE ERROR CUANDO SE ENCUENTRE DESACTIVADO JAVASCRIPT -->
+
+  
+
+  <noscript>
+    Lo sentimos, tu navegador no tiene soporte a javascript o se encuentra deshabilitado
+    por lo que el sitio presentará problemas en su funcionamiento.
+  </noscript>
+
+</body>
+
+</html>

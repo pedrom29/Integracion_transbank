@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conversor de Moneda</title>
+</head>
+<body>
+    <h1>Conversor de Moneda</h1>
+    <form method="POST" action="/">
+        <label for="amount">Monto en CLP:</label>
+        <input type="number" id="amount" name="amount" required>
+        <button type="submit">Convertir</button>
+    </form>
+
+    {% if converted_amount %}
+        <h2>Monto convertido a USD: {{ converted_amount }}</h2>
+    {% endif %}
+</body>
+</html>

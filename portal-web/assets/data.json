@@ -1,0 +1,38 @@
+[
+    { "codigo": 1,
+        "titulo": "Guitarra eléctrica negra",
+        "imagen": "assets/img/guitarra_negra.jpg",
+        "precio": 158990,
+        "descripcion": "guitarra eléctrica marca freeman"
+    },
+    { "codigo": 2,
+        "titulo": "Bajo eléctrico Ibanez GSR180 - Brown Sunburst",
+        "imagen": "assets/img/bajo_electrico.webp",
+        "precio": 259900,
+        "descripcion": "SERIE SOUNDGEAR"
+    },
+    { "codigo": 3,
+        "titulo": "Guitarra eléctroacústica Ibanez AEG7MH - Open Pore Natural",
+        "imagen": "assets/img/guitarra_electroacustica.webp",
+        "precio": 159900,
+        "descripcion": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis harum, repellat repellendus consequuntur molestiae pariatur sed saepe, tempora unde, quia quisquam officia obcaecati optio commodi veniam sit blanditiis! Maxime, debitis?"
+    },
+    { "codigo": 4,
+        "titulo": "Guitarra acústica Vizcaya ARFG94 - Black",
+        "imagen": "assets/img/guitarra_acustica.webp",
+        "precio": 890900,
+        "descripcion": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis harum, repellat repellendus consequuntur molestiae pariatur sed saepe, tempora unde, quia quisquam officia obcaecati optio commodi veniam sit blanditiis! Maxime, debitis?"
+    },
+    { "codigo": 5,
+        "titulo": "Batería acústica Tama Imperialstar IE58H6W 6 piezas HBK",
+        "imagen": "assets/img/bateria.webp",
+        "precio": 599990,
+        "descripcion": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis harum, repellat repellendus consequuntur molestiae pariatur sed saepe, tempora unde, quia quisquam officia obcaecati optio commodi veniam sit blanditiis! Maxime, debitis?"
+    },
+    { "codigo": 6,
+        "titulo": "Guitarra eléctrica roja",
+        "imagen": "assets/img/Guitarra.jpg",
+        "precio": 890900,
+        "descripcion": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis harum, repellat repellendus consequuntur molestiae pariatur sed saepe, tempora unde, quia quisquam officia obcaecati optio commodi veniam sit blanditiis! Maxime, debitis?"
+    }       
+]
